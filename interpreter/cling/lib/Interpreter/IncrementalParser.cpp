@@ -783,21 +783,21 @@ namespace cling {
     // Register the AST Transformers
     typedef std::unique_ptr<ASTTransformer> ASTTPtr_t;
     std::vector<ASTTPtr_t> ASTTransformers;
-    ASTTransformers.emplace_back(new AutoSynthesizer(TheSema));
+    // ASTTransformers.emplace_back(new AutoSynthesizer(TheSema));
     ASTTransformers.emplace_back(new EvaluateTSynthesizer(TheSema));
-    if (hasCodeGenerator()) {
-       // Don't protect against crashes if we cannot run anything.
-       // cling might also be in a PCH-generation mode; don't inject our Sema pointer
-       // into the PCH.
-       ASTTransformers.emplace_back(new NullDerefProtectionTransformer(m_Interpreter));
-    }
+    // if (hasCodeGenerator()) {
+    //    // Don't protect against crashes if we cannot run anything.
+    //    // cling might also be in a PCH-generation mode; don't inject our Sema pointer
+    //    // into the PCH.
+    //    ASTTransformers.emplace_back(new NullDerefProtectionTransformer(m_Interpreter));
+    // }
 
     typedef std::unique_ptr<WrapperTransformer> WTPtr_t;
     std::vector<WTPtr_t> WrapperTransformers;
-    WrapperTransformers.emplace_back(new ValuePrinterSynthesizer(TheSema));
+    // WrapperTransformers.emplace_back(new ValuePrinterSynthesizer(TheSema, 0));
     WrapperTransformers.emplace_back(new DeclExtractor(TheSema));
     WrapperTransformers.emplace_back(new ValueExtractionSynthesizer(TheSema, isChildInterpreter));
-    WrapperTransformers.emplace_back(new CheckEmptyTransactionTransformer(TheSema));
+    // WrapperTransformers.emplace_back(new CheckEmptyTransactionTransformer(TheSema));
 
     m_Consumer->SetTransformers(std::move(ASTTransformers),
                                 std::move(WrapperTransformers));
